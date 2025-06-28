@@ -1,0 +1,13 @@
+# render.yaml
+services:
+  - type: web
+    name: saas-backend
+    runtime: node
+    region: oregon
+    plan: free
+    branch: main
+    buildCommand: npm install && npm run build
+    startCommand: npm run start:prod
+    envVars:
+      - key: NODE_ENV
+        value: production

@@ -1,9 +1,7 @@
 services:
   - type: web
     name: saas-backend
-    runtime: node
-    repo: https://github.com/JayantBansal900/saas-backend
-    branch: main
+    env: node
     buildCommand: npm install && npm run build
     startCommand: npm run start:prod
     envVars:
@@ -11,6 +9,3 @@ services:
         sync: false
       - key: JWT_SECRET
         sync: false
-      - key: NODE_ENV
-        value: production
-    nodeVersion: 18

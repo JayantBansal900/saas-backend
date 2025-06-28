@@ -2,10 +2,14 @@ services:
   - type: web
     name: saas-backend
     env: node
-    buildCommand: echo "skipping build on Render"
+    region: oregon
+    plan: free
+    buildCommand: ""
     startCommand: node dist/main.js
     envVars:
-      - key: MONGO_URI
-        sync: false
       - key: JWT_SECRET
-        sync: false
+        value: supersecret123
+      - key: MONGO_URI
+        value: mongodb://saasadmin:strongpassword123@127.0.0.1:27017/saas_dashboard?authSource=admin
+      - key: CLIENT_URL
+        value: https://saas-frontend-orcin.vercel.app

@@ -1,11 +1,11 @@
 services:
   - type: web
     name: saas-backend
-    env: node
+    runtime: node
     region: oregon
-    plan: free
-    buildCommand: ""
-    startCommand: node dist/main.js
+    branch: main
+    buildCommand: "" # ❗disable npm install + tsc
+    startCommand: "node dist/main.js"
     envVars:
       - key: JWT_SECRET
         value: supersecret123

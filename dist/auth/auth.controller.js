@@ -31,7 +31,7 @@ let AuthController = class AuthController {
         res.cookie('jwt', token, {
             httpOnly: true,
             sameSite: 'lax',
-            secure: process.env.NODE_ENV === 'production',
+            secure: false,
         });
         return { message: 'Login successful' };
     }
@@ -40,6 +40,9 @@ let AuthController = class AuthController {
         return { message: 'Logged out' };
     }
     getProfile(user) {
+        return this.authService.getProfile(user.userId);
+    }
+    getProfileAlias(user) {
         return this.authService.getProfile(user.userId);
     }
 };
@@ -75,6 +78,14 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "getProfile", null);
+__decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, common_1.Get)('profile'),
+    __param(0, (0, get_user_decorator_1.GetUser)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], AuthController.prototype, "getProfileAlias", null);
 exports.AuthController = AuthController = __decorate([
     (0, common_1.Controller)('auth'),
     __metadata("design:paramtypes", [auth_service_1.AuthService])

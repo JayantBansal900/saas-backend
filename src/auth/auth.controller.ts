@@ -30,24 +30,30 @@ export class AuthController {
     const { token } = await this.authService.login(email, password);
 
     res.cookie('jwt', token, {
-      httpOnly: true,
-      sameSite: 'lax',
-      secure: process.env.NODE_ENV === 'production', // Only true on HTTPS
-    });
-
+  httpOnly: true,
+  sameSite: 'lax',
+  secure: false, // ✅ Force cookie to be stored on localhost
+});
     return { message: 'Login successful' };
   }
 
   @Post('logout')
-logout(@Res({ passthrough: true }) res: Response) {
-  res.clearCookie('jwt'); // Clear cookie
-  return { message: 'Logged out' };
-}
+  logout(@Res({ passthrough: true }) res: Response) {
+    res.clearCookie('jwt');
+    return { message: 'Logged out' };
+  }
 
-
+  // 👇 Existing route
   @UseGuards(JwtAuthGuard)
   @Get('me')
   getProfile(@GetUser() user) {
+    return this.authService.getProfile(user.userId);
+  }
+
+  // ✅ NEW alias route for frontend
+  @UseGuards(JwtAuthGuard)
+  @Get('profile')
+  getProfileAlias(@GetUser() user) {
     return this.authService.getProfile(user.userId);
   }
 }
